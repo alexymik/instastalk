@@ -1,0 +1,150 @@
+@charset "utf-8";
+
+html {
+    font-size: 62.5%;
+    font-family: Consolas,"Andale Mono WT","Andale Mono","Lucida Console","Lucida Sans Typewriter","DejaVu Sans Mono","Bitstream Vera Sans Mono","Liberation Mono","Nimbus Mono L",Monaco,"Courier New",Courier,monospace;
+    height: 100%;
+}
+
+body {
+    font-size: 1.5em;
+    color: #333333;
+    background-color: #FFFFFF;
+    margin: 0;
+    height: 100%;
+}
+
+.container {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: 500px;
+    margin-left: -250px;
+    background-color: #ffffff;
+    z-index: 9999;
+    padding: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 1px 1px 2px #666;
+}
+
+.container p {
+    font-size: .8em;
+    margin-top: 0;
+    padding: 0 5px;
+}
+
+.column,
+.columns {
+    width: 100%;
+    float:left;
+    box-sizing: border-box;
+}
+
+#map-container {
+    height: 100%;
+    width: 100%;
+}
+
+#map-canvas {
+    height: 100%;
+    width: 100%;
+}
+
+#slider {
+    width: 275px;
+    vertical-align: middle;
+}
+
+#options {
+    vertical-align: middle;
+    margin-bottom: 5px;
+}
+
+#stalk {
+    border: 1px solid #D3D3D3;
+    background-color: #F5F5F5;
+    padding: 5px 20px;
+    font-size: 1em;
+    color: #333;
+    font-family: Consolas,"Andale Mono WT","Andale Mono","Lucida Console","Lucida Sans Typewriter","DejaVu Sans Mono","Bitstream Vera Sans Mono","Liberation Mono","Nimbus Mono L",Monaco,"Courier New",Courier,monospace;
+}
+
+#stalk:hover {
+    border: 1px solid #999999;
+    box-shadow: 0px 1px 1px #CCC;
+}
+
+.post {
+    font-family: Consolas,"Andale Mono WT","Andale Mono","Lucida Console","Lucida Sans Typewriter","DejaVu Sans Mono","Bitstream Vera Sans Mono","Liberation Mono","Nimbus Mono L",Monaco,"Courier New",Courier,monospace;
+}
+
+.post .thumbnail {
+    float: left;
+    vertical-align: top;
+    margin-right: 15px;
+}
+
+.post .postInfo {
+    float: left;
+    vertical-align: top;
+    max-width: 400px;
+}
+
+.post .postInfo p {
+    word-wrap: break-word;
+    margin: 0;
+    padding: 1px 0 5px 0;
+}
+
+.post .postInfo p.label {
+    font-weight: bold;
+    padding: 0;
+}
+
+.post .thumbnail #fullSize {
+    text-align:center;
+    margin: 0;
+    padding: 3px 0;
+}
+
+.inline {
+    display: inline-block;
+    vertical-align:top;
+    margin-left: 10px;
+}
+
+.inline:first-child {
+    margin-left: 0;
+}
+
+@media (min-width: 550px) {
+    .column,
+    .columns {
+	margin-left: 4%;
+    }
+
+    .column:first-child,
+    .columns:first-child {
+	margin-left: 0;
+    }
+
+    .one.column,
+    .one.columns                    { width: 4.66666666667%; }
+    .two.columns                    { width: 13.3333333333%; }
+    .three.columns                  { width: 22%;            }
+    .four.columns                   { width: 30.6666666667%; }
+    .five.columns                   { width: 39.3333333333%; }
+    .six.columns                    { width: 48%;            }
+    .seven.columns                  { width: 56.6666666667%; }
+    .eight.columns                  { width: 65.3333333333%; }
+    .nine.columns                   { width: 74.0%;          }
+    .ten.columns                    { width: 82.6666666667%; }
+    .eleven.columns                 { width: 91.3333333333%; }
+    .twelve.columns                 { width: 100%; margin-left: 0; }
+
+    .one-third.column               { width: 30.6666666667%; }
+    .two-thirds.column              { width: 65.3333333333%; }
+
+    .one-half.column                { width: 48%; }
+}

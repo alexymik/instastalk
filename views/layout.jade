@@ -1,0 +1,125 @@
+doctype html
+html
+  head
+    title Instastalk
+    link(rel='stylesheet', href='/css/style.css')
+    link(rel='stylesheet', href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css')
+    script(src='https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js')
+    script(src='/js/main.js')
+    script.
+      var searchArea;
+      var map;
+      var markers = [];
+      var infoWindows = [];
+      var contents = [];
+
+      function initialize() {
+        var mapOptions = {
+          center: new google.maps.LatLng(#{iplat}, #{iplng}),
+          zoom: 13
+        };
+
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+        searchArea = new google.maps.Circle({
+          center: new google.maps.LatLng(#{iplat}, #{iplng}),
+          editable: false,
+          draggable: true,
+          strokeColor: '#DD0000',
+          strokeOpacity: 0.75,
+          strokeWeight: 1,
+          fillColor: '#DD0000',
+          fillOpacity: 0.25,
+          map: map,
+          radius: 1000
+        });
+
+        searchArea.setMap(map);
+
+        // listen for search area being moved & radius changes
+        google.maps.event.addListener(searchArea, 'dragend', updateSearchArea);
+        google.maps.event.addListener(searchArea, 'radius_changed', updateSearchArea);
+        google.maps.event.addListener(map, 'rightclick', moveSearchArea);
+      }
+
+      function moveSearchArea(e) {
+        searchArea.setCenter(e.latLng);
+        updateSearchArea();
+      }
+
+      function updateSearchArea(e) {
+        var coords = searchArea.getCenter();
+        var dblcheckRadius = searchArea.getRadius();
+
+        $('p#info').text('Lat: ' + coords.lat() + ', Long: ' + coords.lng() + ', Radius: ' + dblcheckRadius);
+        $('span#radius').text(dblcheckRadius + 'm');
+        $('input#formLat').val(coords.lat());
+        $('input#formLng').val(coords.lng());
+        $('input#formRadius').val(dblcheckRadius);
+      }
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+  body
+    block content
+  script.
+    function handleData(body) {
+      for (var i = 0; i < body['data'].length; i++) {
+        // this is the current instagram post object
+        var curData = body['data'][i];
+
+        if (curData.caption === null) {
+          var iCaption = 'None';
+        } else {
+          var iCaption = curData.caption['text'];
+        }
+	
+        var iLink = curData.link;
+        var iUsername = curData.user['username'];
+        var iFull_name = curData.user['full_name'];
+        var iThumbnail = curData.images['thumbnail'].url;
+        var iImg = curData.images['standard_resolution'].url;
+        var iPosted = new Date(curData.created_time*1000);
+        var iLat = curData.location['latitude'];
+        var iLng = curData.location['longitude'];
+
+        var postLatLng = new google.maps.LatLng(parseFloat(iLat), parseFloat(iLng));
+
+        contents[i] = '<div class="post">'
+                          + '<div class="thumbnail"><img src="' + iThumbnail + '">'
+                          + '<p id="fullSize"><a href="' + iImg + '" target="_blank">'
+                          + 'Full Size</a></p></div>'
+                          + '<div class="postInfo">'
+                          + '<p class="label">Text:</p>'
+                          + '<p>' + iCaption + '</p>'
+                          + '<p class="label">Username:</p>'
+                          + '<a href="https://instagram.com/' + iUsername + '" target="_blank">'
+                          + iUsername + '</a></p>'
+                          + '<p class="label">Name:</p>'
+                          + '<p>' + iFull_name + '</p>'
+                          + '<p><a href="' + iLink + '" target="_blank">View original post</a></p>'
+                          + '<p><em>Posted on ' + iPosted + '</em></p>'
+                          + '</div>';
+
+
+        markers[i] = new google.maps.Marker({
+            'title': iUsername,
+            'position': postLatLng,
+            'map': map,
+            'clickable': true
+        });
+        markers[i].index = i;
+
+        infoWindows[i] = new google.maps.InfoWindow({
+            'content': contents[i]
+        });
+
+        google.maps.event.addListener(markers[i], 'click', function() {
+            infoWindows[this.index].open(map, markers[this.index]);
+        });
+
+        markers[i].setMap(map);
+       }
+    }
