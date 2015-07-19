@@ -28,7 +28,7 @@ router.get('/', function(req, res, next) {
 /* POST */
 router.post('/', function(req, res, next) {
     var data = req.body;
-    var key = "YOURINSTAGRAMAPIKEYGOESHERE";
+    var key = process.env.INSTAGRAM_KEY;
 
     var options = {
 	'host': "api.instagram.com",
@@ -38,7 +38,7 @@ router.post('/', function(req, res, next) {
 	    + '&lng=' + data["lng"]
 	    + '&distance=' + data["radius"]
 	    + '&client_id=' + key
-    }
+    };
 
     apiCall = function(r) {
 	// container for instagram data
@@ -66,7 +66,7 @@ router.post('/', function(req, res, next) {
 
 	    res.json(body);
 	});
-    }
+    };
 
     https.request(options, apiCall).end();
 });
