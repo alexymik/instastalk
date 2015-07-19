@@ -1,16 +1,17 @@
 extends layout
 
 block content
-  div.container
-      p Move the circle where you'd like to search, select the radius, and click Stalk! Right click on the map to move the circle anywhere.
-      div#options.inline
-        div#slider.inline
-        span.inline Radius:
-          span#radius 1000m
-      form#options.inline
+  div#nav
+    p Move the circle where you'd like to search, select the radius, and click Stalk! Right click on the map to move the circle anywhere.
+    div.options
+      div#slider.inline
+      span.inline Radius:
+        span#radius 1000m
+      form#radius.inline
         input(type='hidden', name='lat', id='formLat', value='#{iplat}')
         input(type='hidden', name='lng', id='formLng', value='#{iplng}')
         input(type='hidden', name='radius', id='formRadius', value='1000')
         button(type='submit', id='stalk') Stalk!
+  div#results
   div#map-container
     div#map-canvas

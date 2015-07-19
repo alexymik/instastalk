@@ -8,6 +8,7 @@ html
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
     script(src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js')
     script(src='/js/main.js')
+    script(src='/js/moment.min.js')
     script.
       var searchArea;
       var map;
@@ -81,7 +82,7 @@ html
         var iFull_name = curData.user['full_name'];
         var iThumbnail = curData.images['thumbnail'].url;
         var iImg = curData.images['standard_resolution'].url;
-        var iPosted = new Date(curData.created_time*1000);
+        var iPosted = moment(curData.created_time*1000).format('MMMM Do YYYY, h:mm:ss a');
         var iLat = curData.location['latitude'];
         var iLng = curData.location['longitude'];
 
@@ -121,5 +122,13 @@ html
         });
 
         markers[i].setMap(map);
+
+        $('#results').append('<div onclick="infoWindows['
+                           + markers[i].index + '].open(map, markers['
+                           + markers[i].index + ']);">'
+                           + '<span class="time">' + moment(curData.created_time*1000).fromNow() + '</span>'
+                           + '<img src="' + iThumbnail + '" />'
+                           + '</div>');
+  
        }
     }

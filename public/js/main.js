@@ -10,7 +10,7 @@ $(function() {
 });
 
 $(document).ready(function() {
-    $('form#options').submit(function(event) {
+    $('form#radius').submit(function(event) {
 	event.preventDefault();
 
 	for (var i = 0; i < markers.length; i++) {
@@ -18,6 +18,7 @@ $(document).ready(function() {
 	}
 	
 	markers = [];
+	$('#results').empty();
 	
 	var data = {};
 
